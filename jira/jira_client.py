@@ -23,7 +23,7 @@ def create_user_story(project_key, description, request: Dict[Any, Any]):
         answer = description
         request_body = gen_user_story(project_key,request,answer,jira_env)
         global headers
-        headers["Authorization"] = "Bearer " + os.getenv(jira_env + "_JIRA_TOKEN")
+        headers["Authorization"] = "Basic " + os.getenv(jira_env + "_JIRA_TOKEN")
 
         response = requests.post(endpoint, data=request_body, headers=headers).json()
         resp = {
@@ -55,11 +55,11 @@ def create_sub_task(project_key, description, request: Dict[Any, Any],parent_id,
         request["summary"] = prompt
 
         global headers
-        headers["Authorization"] = "Bearer " + os.getenv(jira_env + "_JIRA_TOKEN")
+        headers["Authorization"] = "Basic " + os.getenv(jira_env + "_JIRA_TOKEN")
         response = requests.post(endpoint, data=request_body, headers=headers).json()
         resp = {
             "description": answer,
-            "id" : response["id"],
+            "id" : response['id'],
             "jira_ticket": response['key'],
             "jira_ticket_url": response['self']
         }
@@ -69,13 +69,13 @@ def create_sub_task(project_key, description, request: Dict[Any, Any],parent_id,
         print("Error : " + error)
 
 def create_ustory_template(env_key, data):
-    f = open("./jira/templates/" + env_key + "_user_story.json", "w")
+    f = open("/jira/templates/" + env_key + "_user_story.json", "w")
     f.write(data)
     f.close()
     return {"success": True}
 
 def create_ustory_task_template(env_key, data):
-    f = open("./jira/templates/" + env_key + "_user_story_subtask.json", "w")
+    f = open("/jira/templates/" + env_key + "_user_story_subtask.json", "w")
     f.write(data)
     f.close()
     return {"success": True}

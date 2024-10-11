@@ -10,7 +10,7 @@ os.environ['GIT_ASKPASS'] = os.path.join(project_dir, 'askpass.py')
 if not os.path.isdir('./git_repo/' + git_dir_name):
     git.Git('./git_repo/').clone(git_remote_url)
 
-repo = git.Repo('./git_repo/' + git_dir_name)
+repo = git.Repo('./')
 
 def gen_git_code(user_code_input, dev_description, jira_ticket):
     ft = ".py"
